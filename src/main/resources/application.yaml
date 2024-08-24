@@ -1,19 +1,19 @@
 server:
-  port: ${PORT:8762}
+  port: 8762
         
 ## Classic Eureka configuration
 eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
   instance:
     preferIpAddress: false
     hostname: ${HOSTNAME:localhost}
-    
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
+    non-secure-port-enabled: false
+    secure-port-enabled: true
+    non-secure-port: 80
+    secure-port: 443
       
-
 ## Enable service discovery (with Eureka)
 ## lower-case-service-id is mandatory, otherwise is retrieved in upper case from Eureka
 spring:
@@ -30,7 +30,7 @@ spring:
       globalcors: ## CORS Configuration
         cors-configurations:
           '[/**]': ## For all routes
-            allowedOrigins: ${ALLOWED_ORIGINS:*} # With '*' we allow all origins. We can restrict by indicating domains or ip + port, e.g. http://localhost:3000 (where our front is, or a Vercel domain)
+            allowedOrigins: "*" # With '*' we allow all origins. We can restrict by indicating domains or ip + port, e.g. http://localhost:3000 (where our front is, or a Vercel domain)
             allowedHeaders: "*" ## All headers allowed
             allowedMethods:
             - GET
